@@ -36,18 +36,11 @@ public abstract class BaseTest {
         System.out.println("Grid: " + gridUrl);
         System.out.println("Mode: " + mode);
 
-        WebDriver driver;
-
-        switch (browserType.toLowerCase()) {
-            case "chrome":
-                driver = setupChromeDriver(gridUrl, mode);
-                break;
-            case "firefox":
-                driver = setupFirefoxDriver(gridUrl, mode);
-                break;
-            default:
-                throw new IllegalArgumentException("Navegador no soportado: " + browserType);
-        }
+        WebDriver driver = switch (browserType.toLowerCase()) {
+            case "chrome" -> setupChromeDriver(gridUrl, mode);
+            case "firefox" -> setupFirefoxDriver(gridUrl, mode);
+            default -> throw new IllegalArgumentException("Not a valid browser type: " + browserType);
+        };
 
         threadLocalDriver.set(driver);
 

@@ -13,7 +13,7 @@ import java.time.Duration;
 
 
 import org.testng.annotations.DataProvider;
-public class testSearchGoogle extends BaseTest {
+public class SearchGoogleTest extends BaseTest {
 
     @DataProvider(name = "searchTerms", parallel = true)
     public Object[][] getSearchTerms() {
@@ -32,8 +32,7 @@ public class testSearchGoogle extends BaseTest {
     }
 
     @Test(dataProvider = "searchTerms")
-    public void abrirGoogle(String searchTerm) throws InterruptedException {
-        // Navega a Google
+    public void OpenGoogle(String searchTerm) {
         WebDriver driver = getDriver();
         driver.get("https://www.google.com");
         String title = driver.getTitle();
@@ -42,7 +41,6 @@ public class testSearchGoogle extends BaseTest {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement searchBar = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("q")));
 
-        // Escribe el término recibido por el data provider
         searchBar.sendKeys(searchTerm);
         searchBar.submit();
 
