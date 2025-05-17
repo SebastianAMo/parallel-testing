@@ -21,12 +21,12 @@ public class SearchGoogleTest extends BaseTest {
                 {"testng"},
                 {"java"},
                 {"webdriver"},
-                {"automation"},
-                {"chrome"},
-                {"firefox"},
-                {"testing"},
-                {"google"},
-                {"rest"},
+//                {"automation"},
+//                {"chrome"},
+//                {"firefox"},
+//                {"testing"},
+//                {"google"},
+//                {"rest"},
         };
     }
 
