@@ -1,16 +1,33 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Suite de Pruebas" parallel="tests" thread-count="10">
+<suite name="Suite de Pruebas" parallel="tests" thread-count="2">
+    <parameter
+            name="BROWSERSTACK_BUILD_NAME"
+            value="browserstack-build-1"
+    />
+    <parameter
+            name="BROWSERSTACK_PROJECT_NAME"
+            value="BrowserStack Sample"
+    />
+    <parameter name="mode" value="normal" />
+
     <test name="Pruebas en Chrome">
         <parameter name="browser" value="chrome" />
+        <parameter name="browserVersion" value="latest" />
+        <parameter name="os" value="Windows" />
+        <parameter name="osVersion" value="11" />
         <packages>
-            <package name="tests" />
+            <package name="tests"/>
         </packages>
     </test>
 
     <test name="Pruebas en Firefox">
         <parameter name="browser" value="firefox" />
+        <parameter name="browserVersion" value="latest" />
+        <parameter name="os" value="Windows" />
+        <parameter name="osVersion" value="10" />
         <packages>
-            <package name="tests" />
+            <package name="tests"/>
         </packages>
     </test>
+
 </suite>

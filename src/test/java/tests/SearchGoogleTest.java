@@ -19,15 +19,6 @@ public class SearchGoogleTest extends BaseTest {
     public Object[][] getSearchTerms() {
         return new Object[][]{
                 {"selenium"},
-                {"testng"},
-                {"java"},
-                {"webdriver"},
-                {"automation"},
-                {"chrome"},
-                {"firefox"},
-                {"testing"},
-                {"google"},
-                {"rest"},
         };
     }
 

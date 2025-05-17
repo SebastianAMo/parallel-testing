@@ -1,86 +1,83 @@
 package base;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Map;
 
 public abstract class BaseTest {
-
     private static final ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
-    protected String downloadFilepath;
 
     protected WebDriver getDriver() {
         return threadLocalDriver.get();
     }
 
     @BeforeMethod
-    @Parameters({"browser", "SELENIUM_GRID_URL", "mode"})
-    public void setUp(String browserType,
+    @Parameters({
+            "browser",
+            "browserVersion",
+            "os",
+            "osVersion",
+            "BROWSERSTACK_BUILD_NAME",
+            "BROWSERSTACK_PROJECT_NAME",
+            "SELENIUM_GRID_URL",
+            "mode"
+    })
+    public void setUp(String browser,
+                      String browserVersion,
+                      String os,
+                      String osVersion,
+                      String buildName,
+                      String projectName,
                       String gridUrl,
-                      @Optional("normal") String mode) throws MalformedURLException {
+                      @Optional("normal") String mode) throws Exception {
 
-        downloadFilepath = Paths.get(System.getProperty("user.home"), "Downloads").toString();
+        MutableCapabilities caps = new MutableCapabilities();
+        caps.setCapability("browserName", browser);
+        caps.setCapability("browserVersion", browserVersion);
 
-        System.out.println("Download path: " + downloadFilepath);
-        System.out.println("Browser: " + browserType);
-        System.out.println("Grid: " + gridUrl);
-        System.out.println("Mode: " + mode);
+        String userName = System.getenv("BROWSERSTACK_USERNAME");
+        String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
 
-        WebDriver driver = switch (browserType.toLowerCase()) {
-            case "chrome" -> setupChromeDriver(gridUrl, mode);
-            case "firefox" -> setupFirefoxDriver(gridUrl, mode);
-            default -> throw new IllegalArgumentException("Not a valid browser type: " + browserType);
-        };
+        Map<String, Object> bsOpts = new HashMap<>();
+        bsOpts.put("userName", userName);
+        bsOpts.put("accessKey", accessKey);
+        bsOpts.put("buildName", buildName);
+        bsOpts.put("projectName", projectName);
+        bsOpts.put("local", false);
+        bsOpts.put("os", os);
+        bsOpts.put("osVersion", osVersion);
 
+        caps.setCapability("bstack:options", bsOpts);
+
+        if ("chrome".equalsIgnoreCase(browser)) {
+            Map<String,Object> chromePrefs = new HashMap<>();
+            chromePrefs.put("download.default_directory",
+                    Paths.get(System.getProperty("user.home"), "Downloads").toString());
+            caps.setCapability("goog:chromeOptions", Map.of("args",
+                    new String[]{ mode.equals("headless")?"--headless":"--start-maximized" },
+                    "prefs", chromePrefs));
+        } else {
+            if ("headless".equalsIgnoreCase(mode)) {
+                caps.setCapability("moz:firefoxOptions", Map.of("args", new String[]{"-headless"}));
+            }
+        }
+
+        WebDriver driver = new RemoteWebDriver(new URL(gridUrl), caps);
         threadLocalDriver.set(driver);
-
-        getDriver().get("https://the-internet.herokuapp.com/");
     }
 
-    private WebDriver setupChromeDriver(String gridUrl, String mode) throws MalformedURLException {
-        ChromeOptions options = new ChromeOptions();
 
-        HashMap<String, Object> chromePrefs = new HashMap<>();
-        chromePrefs.put("profile.default_content_settings.popups", 0);
-        chromePrefs.put("download.prompt_for_download", false);
-        chromePrefs.put("download.directory_upgrade", true);
-        chromePrefs.put("safebrowsing.enabled", true);
-        chromePrefs.put("download.default_directory", downloadFilepath);
-        options.setExperimentalOption("prefs", chromePrefs);
-
-        if ("headless".equalsIgnoreCase(mode)) {
-            options.addArguments("--headless", "--disable-gpu");
-        }
-
-        options.addArguments("--start-maximized");
-        return new RemoteWebDriver(new URL(gridUrl), options);
-    }
-
-    private WebDriver setupFirefoxDriver(String gridUrl, String mode) throws MalformedURLException {
-        FirefoxOptions options = new FirefoxOptions();
-
-        if ("headless".equalsIgnoreCase(mode)) {
-            options.addArguments("--headless");
-        }
-
-        return new RemoteWebDriver(new URL(gridUrl), options);
-    }
-
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
-        WebDriver driver = getDriver();
-        if (driver != null) {
-            driver.quit();
+        WebDriver d = getDriver();
+        if (d != null) {
+            try { d.quit(); } catch (Exception ignored) {}
             threadLocalDriver.remove();
         }
     }
