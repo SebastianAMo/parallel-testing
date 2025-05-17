@@ -17,6 +17,6 @@ public class SearchResultsPage extends BasePage {
 
 
     public List<WebElement> resultItems() {
-        return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(resultsLink));
+        return fluentWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(resultItems));
     }
 }
