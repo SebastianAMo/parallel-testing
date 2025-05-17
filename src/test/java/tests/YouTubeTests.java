@@ -7,9 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.openqa.selenium.By;
-import pages.YouTubeHomePage;
-import pages.SearchResultsPage;
-import pages.VideoPage;
+import pages.*;
 
 import java.util.List;
 
@@ -21,7 +19,10 @@ public class YouTubeTests extends BaseTest {
     public Object[][] searchQueries() {
         return new Object[][] {
                 { "Selenium Grid tutorial" },
-                { "TestNG parallel tests" }
+                { "TestNG parallel tests" },
+                { "Selenium driver"},
+                { "Selenium WebDriver"},
+                { "Selenium WebDriver Test"},
         };
     }
 
@@ -31,16 +32,20 @@ public class YouTubeTests extends BaseTest {
         YouTubeHomePage home = new YouTubeHomePage(getDriver());
         List<WebElement> resultsLink =  home.searchFor(query).resultItems();
 
-        logger.info("Search results found {}", resultsLink.size());
         Assert.assertNotNull(resultsLink);
     }
 
     @Test(dataProvider = "searchQueries", description = "Verify that a video can be played and paused")
     public void testVideoPlaybackControls(String query) throws InterruptedException {
+        YouTubeHomePage home = new YouTubeHomePage(getDriver());
+        VideoPage videoPage = home.searchFor(query).selectResult(2);
+        String title = videoPage.handleYouTubeAds().getVideoTitle();
 
-    }
+        logger.info("Video title is {}", title);
 
-    @Test(description = "Verify that video quality can be changed")
-    public void testChangeVideoQuality() throws InterruptedException {
+//        videoPage.dismissYouTubePremiumPopup().playAndPauseVideo();
+//        Thread.sleep(5000);
+//        videoPage.playAndPauseVideo();
+//        Thread.sleep(5000);
     }
 }
