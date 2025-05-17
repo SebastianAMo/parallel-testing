@@ -10,7 +10,9 @@ repositories {
 }
 
 dependencies {
-    // Selenium para pruebas automatizadas en navegadores
+    implementation ("org.apache.logging.log4j:log4j-api:2.20.0")
+    implementation ("org.apache.logging.log4j:log4j-core:2.20.0")
+    implementation ("org.apache.logging.log4j:log4j-slf4j-impl:2.20.0")
     testImplementation("org.seleniumhq.selenium:selenium-java:4.25.0")
 
     // Dependencia de TestNG
@@ -22,8 +24,6 @@ tasks.test {
         suites ("src/test/resources/testng.xml")  // Ruta al archivo testng.xml
     }
 
-    // Configurar propiedades del sistema para Selenium Grid
-    systemProperty("SELENIUM_GRID_URL", System.getProperty("SELENIUM_GRID_URL", "https://sebastianagudelo_1GUKOA:iLx5jDJXzpERbsxLMF76@hub-cloud.browserstack.com/wd/hub"))
     systemProperty("mode", System.getProperty("mode", "headless"))
 
 }

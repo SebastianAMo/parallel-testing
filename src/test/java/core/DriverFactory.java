@@ -1,48 +1,36 @@
-package base;
+package core;
 
-import org.openqa.selenium.WebDriver;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.annotations.*;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class BaseTest {
-    private static final ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
 
-    protected WebDriver getDriver() {
-        return threadLocalDriver.get();
-    }
+public class DriverFactory {
+    private static final Logger logger = LogManager.getLogger(DriverFactory.class);
 
-    @BeforeMethod
-    @Parameters({
-            "browser",
-            "browserVersion",
-            "os",
-            "osVersion",
-            "BROWSERSTACK_BUILD_NAME",
-            "BROWSERSTACK_PROJECT_NAME",
-            "SELENIUM_GRID_URL",
-            "mode"
-    })
-    public void setUp(String browser,
-                      String browserVersion,
-                      String os,
-                      String osVersion,
-                      String buildName,
-                      String projectName,
-                      String gridUrl,
-                      @Optional("normal") String mode) throws Exception {
-
+    public static WebDriver createDriver(String browser,
+                                         String browserVersion,
+                                         String os,
+                                         String osVersion,
+                                         String buildName,
+                                         String projectName,
+                                         String mode) throws MalformedURLException {
         MutableCapabilities caps = new MutableCapabilities();
         caps.setCapability("browserName", browser);
         caps.setCapability("browserVersion", browserVersion);
 
         String userName = System.getenv("BROWSERSTACK_USERNAME");
         String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
+        logger.info("BROWSERSTACK_USERNAME: {}", userName);
+        logger.info("BROWSERSTACK_ACCESS_KEY: {}", accessKey);
 
         Map<String, Object> bsOpts = new HashMap<>();
         bsOpts.put("userName", userName);
@@ -68,17 +56,8 @@ public abstract class BaseTest {
             }
         }
 
-        WebDriver driver = new RemoteWebDriver(new URL(gridUrl), caps);
-        threadLocalDriver.set(driver);
-    }
+        String gridUrl = "https://"+ userName + ":" + accessKey + "@hub-cloud.browserstack.com/wd/hub";
 
-
-    @AfterMethod(alwaysRun = true)
-    public void tearDown() {
-        WebDriver d = getDriver();
-        if (d != null) {
-            try { d.quit(); } catch (Exception ignored) {}
-            threadLocalDriver.remove();
-        }
+        return new RemoteWebDriver(new URL(gridUrl), caps);
     }
 }

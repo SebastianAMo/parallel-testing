@@ -19,12 +19,20 @@
             <package name="tests"/>
         </packages>
     </test>
-
     <test name="Pruebas en Firefox">
         <parameter name="browser" value="firefox" />
         <parameter name="browserVersion" value="latest" />
         <parameter name="os" value="Windows" />
         <parameter name="osVersion" value="10" />
+        <packages>
+            <package name="tests"/>
+        </packages>
+    </test>
+    <test name="Pruebas en Safari">
+        <parameter name="browser" value="Safari" />
+        <parameter name="browserVersion" value="latest" />
+        <parameter name="os" value="OS X" />
+        <parameter name="osVersion" value="Monterey" />
         <packages>
             <package name="tests"/>
         </packages>
