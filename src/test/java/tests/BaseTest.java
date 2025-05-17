@@ -34,8 +34,6 @@ public abstract class BaseTest {
         WebDriver driver = DriverFactory.createDriver(browserType, gridUrl, mode);
 
         threadLocalDriver.set(driver);
-
-        getDriver().get("https://the-internet.herokuapp.com/");
     }
 
     @AfterMethod
