@@ -1,12 +1,12 @@
 package core;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
@@ -14,18 +14,20 @@ public class DriverFactory {
 
     private static final String downloadFilepath = Paths.get(System.getProperty("user.home"), "Downloads").toString();
 
-    public static WebDriver createDriver(String browserType, String gridUrl, String mode) throws MalformedURLException {
+    public static WebDriver createDriver(String browserType, String mode) {
         switch (browserType.toLowerCase()) {
             case "chrome":
-                return createChromeDriver(gridUrl, mode);
+                return createChromeDriver(mode);
             case "firefox":
-                return createFirefoxDriver(gridUrl, mode);
+                return createFirefoxDriver(mode);
             default:
                 throw new IllegalArgumentException("Not a valid browser type: " + browserType);
         }
     }
 
-    private static WebDriver createChromeDriver(String gridUrl, String mode) throws MalformedURLException {
+    private static WebDriver createChromeDriver(String mode) {
+        WebDriverManager.chromedriver().setup();
+
         ChromeOptions options = new ChromeOptions();
 
         HashMap<String, Object> chromePrefs = new HashMap<>();
@@ -41,16 +43,18 @@ public class DriverFactory {
         }
 
         options.addArguments("--start-maximized");
-        return new RemoteWebDriver(new URL(gridUrl), options);
+        return new ChromeDriver(options);
     }
 
-    private static WebDriver createFirefoxDriver(String gridUrl, String mode) throws MalformedURLException {
+    private static WebDriver createFirefoxDriver(String mode) {
+        WebDriverManager.firefoxdriver().setup();
+
         FirefoxOptions options = new FirefoxOptions();
 
         if ("headless".equalsIgnoreCase(mode)) {
             options.addArguments("--headless");
         }
 
-        return new RemoteWebDriver(new URL(gridUrl), options);
+        return new FirefoxDriver(options);
     }
 }

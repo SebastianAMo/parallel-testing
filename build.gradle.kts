@@ -13,6 +13,7 @@ dependencies {
     implementation ("org.apache.logging.log4j:log4j-api:2.20.0")
     implementation ("org.apache.logging.log4j:log4j-core:2.20.0")
     implementation ("org.apache.logging.log4j:log4j-slf4j-impl:2.20.0")
+    testImplementation("io.github.bonigarcia:webdrivermanager:6.1.0")
     // Selenium para pruebas automatizadas en navegadores
     testImplementation("org.seleniumhq.selenium:selenium-java:4.25.0")
 

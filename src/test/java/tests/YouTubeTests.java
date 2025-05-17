@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import org.openqa.selenium.By;
 import pages.YouTubeHomePage;
 import pages.SearchResultsPage;
-import pages.VideoPage;
+
 
 import java.util.List;
 
@@ -38,9 +38,5 @@ public class YouTubeTests extends BaseTest {
     @Test(dataProvider = "searchQueries", description = "Verify that a video can be played and paused")
     public void testVideoPlaybackControls(String query) throws InterruptedException {
 
-    }
-
-    @Test(description = "Verify that video quality can be changed")
-    public void testChangeVideoQuality() throws InterruptedException {
     }
 }

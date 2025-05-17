@@ -31,7 +31,7 @@ public abstract class BaseTest {
         logger.info("Setting up grid: {}", gridUrl);
         logger.info("Setting up mode: {}", mode);
 
-        WebDriver driver = DriverFactory.createDriver(browserType, gridUrl, mode);
+        WebDriver driver = DriverFactory.createDriver(browserType, mode);
 
         threadLocalDriver.set(driver);
     }
