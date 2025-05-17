@@ -8,8 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 
 public class SearchResultsPage extends BasePage {
-    private final By resultItems = By.id("video-title");
-    private final By resultsLink = By.className("yt-core-attributed-string__link");
+    private final By resultItems = By.xpath("//*[@class and contains(@class,'ytd-page-manager')]//*[@id='container']//*[@id='video-title']");
 
     public SearchResultsPage(WebDriver driver) {
         super(driver);
@@ -18,5 +17,13 @@ public class SearchResultsPage extends BasePage {
 
     public List<WebElement> resultItems() {
         return fluentWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(resultItems));
+    }
+
+    public VideoPage selectResult(int index){
+
+        List<WebElement> results = resultItems();
+        results.get(index).click();
+
+        return new VideoPage(driver);
     }
 }

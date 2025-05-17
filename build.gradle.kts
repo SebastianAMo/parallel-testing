@@ -23,7 +23,7 @@ dependencies {
 
 tasks.test {
     useTestNG {
-        suites ("src/test/resources/testng.xml")  // Ruta al archivo testng.xml
+        suites ("src/test/resources/testng-local.xml")  // Ruta al archivo testng.xml
     }
 
     // Configurar propiedades del sistema para Selenium Grid
