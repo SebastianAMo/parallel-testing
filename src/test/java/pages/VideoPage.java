@@ -3,13 +3,9 @@ package pages;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import tests.YouTubeTests;
-
-import java.time.Duration;
 
 public class VideoPage extends BasePage {
     private static final Logger logger = LogManager.getLogger(VideoPage.class);
@@ -55,8 +51,7 @@ public class VideoPage extends BasePage {
 
         String ariaLabel = playButtonElement.getAttribute("aria-label");
 
-        boolean isNull = ariaLabel == null;
-        if (isNull && ariaLabel.toLowerCase().contains("pausa")) {
+        if (ariaLabel != null && ariaLabel.toLowerCase().contains("pausa")) {
             logger.info("Play button pressed.");
         } else {
             logger.info("Pause button pressed.");

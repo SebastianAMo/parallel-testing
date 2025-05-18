@@ -1,16 +1,17 @@
 package core;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class DriverFactory {
@@ -58,6 +59,7 @@ public class DriverFactory {
 
         String gridUrl = "https://"+ userName + ":" + accessKey + "@hub-cloud.browserstack.com/wd/hub";
 
-        return new RemoteWebDriver(new URL(gridUrl), caps);
+            URL url = URI.create(gridUrl).toURL();
+        return new RemoteWebDriver(url, caps);
     }
 }

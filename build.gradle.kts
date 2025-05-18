@@ -21,8 +21,9 @@ dependencies {
 
 tasks.test {
     useTestNG {
-        suites ("src/test/resources/testng.xml")  // Ruta al archivo testng.xml
+        suites ("src/test/resources/testng.xml") 
     }
+    reports.html.outputLocation = file("build/reports/testng-report-browserstack")
 
     systemProperty("mode", System.getProperty("mode", "headless"))
 
