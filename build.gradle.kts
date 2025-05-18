@@ -23,11 +23,13 @@ dependencies {
 
 tasks.test {
     useTestNG {
-        suites ("src/test/resources/testng-local.xml")  // Ruta al archivo testng.xml
+        suites ("src/test/resources/testng.xml")  // Ruta al archivo testng.xml
     }
 
     // Configurar propiedades del sistema para Selenium Grid
     systemProperty("SELENIUM_GRID_URL", System.getProperty("SELENIUM_GRID_URL", "http://localhost:4444/wd/hub"))
     systemProperty("mode", System.getProperty("mode", "normal"))
+
+    reports.html.outputLocation = file("build/reports/testng-report-without-parallel")
 
 }

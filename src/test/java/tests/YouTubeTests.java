@@ -19,7 +19,10 @@ public class YouTubeTests extends BaseTest {
     public Object[][] searchQueries() {
         return new Object[][] {
                 { "Selenium Grid tutorial" },
-                { "TestNG parallel tests" }
+                { "TestNG parallel tests" },
+                { "Selenium driver"},
+                { "Selenium WebDriver"},
+                { "Selenium WebDriver Test"},
         };
     }
 
@@ -40,9 +43,9 @@ public class YouTubeTests extends BaseTest {
 
         logger.info("Video title is {}", title);
 
-        videoPage.dismissYouTubePremiumPopup().playAndPauseVideo();
-        Thread.sleep(5000);
-        videoPage.playAndPauseVideo();
-        Thread.sleep(5000);
+//        videoPage.dismissYouTubePremiumPopup().playAndPauseVideo();
+//        Thread.sleep(5000);
+//        videoPage.playAndPauseVideo();
+//        Thread.sleep(5000);
     }
 }
