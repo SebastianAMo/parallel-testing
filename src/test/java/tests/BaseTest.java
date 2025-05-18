@@ -1,16 +1,17 @@
 package tests;
 
 
+import java.net.MalformedURLException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
-import java.net.MalformedURLException;
 import core.DriverFactory;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 
 public abstract class BaseTest {
@@ -23,16 +24,16 @@ public abstract class BaseTest {
 
     @BeforeMethod
     @Parameters({"browser", "SELENIUM_GRID_URL", "mode", "platform"})
-    public void setUp(String browserType,
+    public void setUp(String browser,
                       String gridUrl,
                       @Optional("normal") String mode,
                       String platform) throws MalformedURLException {
 
-        logger.info("Setting up browser: {}", browserType);
+        logger.info("Setting up browser: {}", browser);
         logger.info("Setting up grid: {}", gridUrl);
         logger.info("Setting up mode: {}", mode);
 
-        WebDriver driver = DriverFactory.createDriver(browserType, gridUrl, mode, platform);
+        WebDriver driver = DriverFactory.createDriver(browser, gridUrl, mode, platform);
 
         threadLocalDriver.set(driver);
     }

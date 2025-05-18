@@ -1,15 +1,16 @@
 package tests;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.openqa.selenium.By;
-import pages.*;
 
-import java.util.List;
+import pages.VideoPage;
+import pages.YouTubeHomePage;
 
 
 public class YouTubeTests extends BaseTest {

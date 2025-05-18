@@ -1,17 +1,14 @@
 package tests;
 
-import org.openqa.selenium.WebDriver;
-import org.testng.annotations.Test;
+import java.time.Duration;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
-
-
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 public class SearchGoogleTest extends BaseTest {
 
     @DataProvider(name = "searchTerms", parallel = true)
@@ -43,6 +40,6 @@ public class SearchGoogleTest extends BaseTest {
         searchBar.sendKeys(searchTerm);
         searchBar.submit();
 
-        System.out.println("Buscando: " + searchTerm + " | Thread ID: " + Thread.currentThread().getId());
+        System.out.println("Buscando: " + searchTerm + " | Thread ID: " + Thread.currentThread().threadId());
     }
 }

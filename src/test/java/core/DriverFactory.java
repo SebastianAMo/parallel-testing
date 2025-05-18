@@ -1,29 +1,30 @@
 package core;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.util.HashMap;
+
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Paths;
-import java.util.HashMap;
-
 
 public class DriverFactory {
 
-    private static final String downloadFilepath = Paths.get(System.getProperty("user.home"), "Downloads").toString();
+
 
     public static WebDriver createDriver(String browserType, String gridUrl, String mode, String platform) throws MalformedURLException {
         switch (browserType.toLowerCase()) {
-            case "chrome":
+            case "chrome" -> {
                 return createChromeDriver(gridUrl, mode, platform);
-            case "firefox":
+            }
+            case "firefox" -> {
                 return createFirefoxDriver(gridUrl, mode, platform);
-            default:
-                throw new IllegalArgumentException("Not a valid browser type: " + browserType);
+            }
+            default -> throw new IllegalArgumentException("Not a valid browser type: " + browserType);
         }
     }
 
@@ -35,7 +36,6 @@ public class DriverFactory {
         chromePrefs.put("download.prompt_for_download", false);
         chromePrefs.put("download.directory_upgrade", true);
         chromePrefs.put("safebrowsing.enabled", true);
-        chromePrefs.put("download.default_directory", downloadFilepath);
         chromePrefs.put("os", platform);
         options.setExperimentalOption("prefs", chromePrefs);
 
@@ -45,7 +45,8 @@ public class DriverFactory {
         }
 
         options.addArguments("--start-maximized");
-        return new RemoteWebDriver(new URL(gridUrl), options);
+        URL url = URI.create(gridUrl).toURL();
+        return new RemoteWebDriver(url, options);
     }
 
     private static WebDriver createFirefoxDriver(String gridUrl, String mode, String platform) throws MalformedURLException {    FirefoxOptions options = new FirefoxOptions();
@@ -58,6 +59,7 @@ public class DriverFactory {
         caps.setCapability(FirefoxOptions.FIREFOX_OPTIONS, options);
         caps.setCapability("platformName", platform);
 
-        return new RemoteWebDriver(new URL(gridUrl), caps);
+        URL url = URI.create(gridUrl).toURL();
+        return new RemoteWebDriver(url, caps);
     }
 }
