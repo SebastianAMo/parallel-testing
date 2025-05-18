@@ -6,22 +6,20 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-
-import java.nio.file.Paths;
 import java.util.HashMap;
 
 public class DriverFactory {
 
-    private static final String downloadFilepath = Paths.get(System.getProperty("user.home"), "Downloads").toString();
-
+    
     public static WebDriver createDriver(String browserType, String mode) {
         switch (browserType.toLowerCase()) {
-            case "chrome":
+            case "chrome" -> {
                 return createChromeDriver(mode);
-            case "firefox":
+            }
+            case "firefox" -> {
                 return createFirefoxDriver(mode);
-            default:
-                throw new IllegalArgumentException("Not a valid browser type: " + browserType);
+            }
+            default -> throw new IllegalArgumentException("Not a valid browser type: " + browserType);
         }
     }
 
@@ -35,7 +33,6 @@ public class DriverFactory {
         chromePrefs.put("download.prompt_for_download", false);
         chromePrefs.put("download.directory_upgrade", true);
         chromePrefs.put("safebrowsing.enabled", true);
-        chromePrefs.put("download.default_directory", downloadFilepath);
         options.setExperimentalOption("prefs", chromePrefs);
 
         if ("headless".equalsIgnoreCase(mode)) {
