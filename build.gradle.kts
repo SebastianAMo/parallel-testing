@@ -28,5 +28,7 @@ tasks.test {
     // Configurar propiedades del sistema para Selenium Grid
     systemProperty("SELENIUM_GRID_URL", System.getProperty("SELENIUM_GRID_URL", "http://localhost:4444/wd/hub"))
     systemProperty("mode", System.getProperty("mode", "normal"))
+    reports.html.outputLocation = file("build/reports/testng-report-grid")
+
 
 }

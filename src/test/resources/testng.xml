@@ -5,7 +5,7 @@
 
     <test name="Pruebas en Chrome Windows">
         <parameter name="browser" value="chrome" />
-        <parameter name="platform" value="win11" />
+        <parameter name="platform" value="Windows 11" />
         <packages>
             <package name="tests" />
         </packages>
