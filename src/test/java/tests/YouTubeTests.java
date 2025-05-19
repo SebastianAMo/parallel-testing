@@ -16,7 +16,7 @@ import pages.YouTubeHomePage;
 public class YouTubeTests extends BaseTest {
     private static final Logger logger = LogManager.getLogger(YouTubeTests.class);
 
-    @DataProvider(name = "searchQueries")
+    @DataProvider(name = "searchQueries", parallel = true)
     public Object[][] searchQueries() {
         return new Object[][] {
                 { "Selenium Grid tutorial" },

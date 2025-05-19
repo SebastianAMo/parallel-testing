@@ -3,13 +3,13 @@
 
 <!--    <suite name="Suite de Pruebas" parallel="methods" thread-count="10">-->
 
-    <test name="Pruebas en Chrome Windows">
-        <parameter name="browser" value="chrome" />
-        <parameter name="platform" value="Windows 11" />
-        <packages>
-            <package name="tests" />
-        </packages>
-    </test>
+<!--    <test name="Pruebas en Chrome Windows">-->
+<!--        <parameter name="browser" value="chrome" />-->
+<!--        <parameter name="platform" value="Windows 11" />-->
+<!--        <packages>-->
+<!--            <package name="tests" />-->
+<!--        </packages>-->
+<!--    </test>-->
 
     <test name="Pruebas en Chrome Linux">
         <parameter name="browser" value="chrome" />

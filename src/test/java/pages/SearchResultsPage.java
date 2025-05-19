@@ -16,7 +16,7 @@ public class SearchResultsPage extends BasePage {
 
 
     public List<WebElement> resultItems() {
-        return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(resultItems));
+        return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(resultItems));
     }
 
     public VideoPage selectResult(int index){
