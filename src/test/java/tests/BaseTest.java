@@ -23,15 +23,15 @@ public abstract class BaseTest {
 
     @BeforeMethod
     @Parameters({"browser", "SELENIUM_GRID_URL", "mode"})
-    public void setUp(String browserType,
+    public void setUp(String browser,
                       String gridUrl,
                       @Optional("normal") String mode) throws MalformedURLException {
 
-        logger.info("Setting up browser: {}", browserType);
+        logger.info("Setting up browser: {}", browser);
         logger.info("Setting up grid: {}", gridUrl);
         logger.info("Setting up mode: {}", mode);
 
-        WebDriver driver = DriverFactory.createDriver(browserType, mode);
+        WebDriver driver = DriverFactory.createDriver(browser, mode);
 
         threadLocalDriver.set(driver);
     }
