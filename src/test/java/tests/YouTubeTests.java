@@ -37,7 +37,7 @@ public class YouTubeTests extends BaseTest {
     }
 
     @Test(dataProvider = "searchQueries", description = "Verify that a video can be played and paused")
-    public void testVideoPlaybackControls(String query) throws InterruptedException {
+    public void testVideoPlaybackControls(String query) {
         YouTubeHomePage home = new YouTubeHomePage(getDriver());
         VideoPage videoPage = home.searchFor(query).selectResult(2);
         String title = videoPage.handleYouTubeAds().getVideoTitle();
